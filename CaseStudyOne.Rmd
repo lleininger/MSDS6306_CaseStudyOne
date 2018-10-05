@@ -1,0 +1,83 @@
+---
+title: "CaseStudyOne"
+author: "Michael Tieu"
+date: "10/1/2018"
+output: 
+  html_document:
+    keep_rmd: true
+---
+
+```{r}
+#Removes factors from dataframes
+options(stringsAsFactors = F)
+
+#Reading in data
+Beers <- as.data.frame(read.csv('Beers.csv'))
+Breweries <- as.data.frame(read.csv(('Breweries.csv')))
+
+#Renaming Brewery_id to Brew_ID and respective names
+names(Beers)[which(names(Beers)=="Brewery_id")] <- 'Brew_ID'
+names(Beers)[which(names(Beers) =="Name")] <- 'Beer Name'
+names(Breweries)[which(names(Breweries) == "Name")] <- 'Brewery'
+
+#Checking classes of columns
+a<-function(x,i=1){
+  while(i<=length(names(x))){
+  print (class(x[,i]))
+  i = i+1
+  }}
+```
+
+# Question 1: How many breweries are present in each state?
+```{r}
+#Creates a dataframe from a table of breweries present per state
+Q1 <- as.data.frame(table(Breweries$State))
+names(Q1) <- c("State","Number of Breweries Present")
+
+#Checking math
+sum(Q1$`Number of Breweries Present`)
+```
+
+# Question 2: Merge beer data with the breweries data. Print the first 6 observations and the last six observations to check the merged file.
+```{r}
+#Merging datasets into Beer_Data
+Beer_Data <- merge(Beers,Breweries,by=c("Brew_ID"))
+
+#Printing first and last 6 observations of merged dataset
+head(Beer_Data)
+tail(Beer_Data)
+```
+
+# Question 3: Report the number of NA's in each column.
+```{r}
+#Goes through each column and extracts column name and number of NA present in each column, compiles to dataframe NA_List
+b<-function(x,i=1){
+  Column <- c("")
+  Number_NA <- c("")
+  while(i<=length(names(x))){
+  Column[i] <- (names(x[i]))
+  Number_NA[i] <- (sum(is.na(x[,i])))
+  i = i+1
+  NA_List<-data.frame(Column,Number_NA)
+  }
+  NA_List
+}
+b(Beer_Data)
+```
+
+# Question 4: Compute the median alcohol content and international bitterness unit for each state. Plot a bar chart to compare.
+```{r}
+#Compiles ABV medians for each state
+ABV_Median<- aggregate(Beer_Data$ABV~Beer_Data$State, data = Beer_Data, median)
+names(ABV_Median) <- c("State","ABV_Median")
+
+#Compiles IBU medians for each state
+IBU_Median <- aggregate(Beer_Data$IBU~Beer_Data$State, data = Beer_Data, median)
+names(IBU_Median) <- c("State","IBU_Median")
+
+#Merges ABV/IBU median data into one dataframe
+Q4 <- merge(ABV_Median,IBU_Median,by="State")
+
+#Plot of ABV median
+ggplot(Q4, aes(State, ABV_Median)) + geom_bar(stat = "identity") + coord_flip() + ggtitle("Alcobol by Volume by State") + xlab("State") + ylab("Median Alcohol by Volume")
+```
