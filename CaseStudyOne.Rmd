@@ -176,3 +176,5 @@ ggplot(Beer_Data, aes(x=IBU, y=ABV)) + geom_point() +geom_smooth(method=lm) +ggt
 ```
 
 #Conclusion: Using this data, we learned that the top markets for breweries are the states of Colorado, California, and Michigan.
+
+#Github: https://github.com/emteepastiche/MSDS6306_CaseStudyOne
