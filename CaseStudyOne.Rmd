@@ -166,6 +166,7 @@ names(Beer_Style) <- c("Style","Freq")
 Beer_Style$Style <- as.character(Beer_Style$Style)
 Beer_Style$Style[1] <- "NA"
 Beer_Style <- Beer_Style[order(Beer_Style$Freq, decreasing = TRUE),]
+head(Beer_Style)
 ```
 
 #This code creates a scatter plot which compares the bitterness (IBU) agaisnt the alcohol content (ABV) in the beer. The difference between this scatter plot and the previous is that this one provides the 4 most popular beer styles color coded.
