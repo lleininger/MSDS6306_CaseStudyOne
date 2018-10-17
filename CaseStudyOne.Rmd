@@ -137,10 +137,8 @@ Beer_Data[which(Beer_Data$IBU == max((Beer_Data$IBU), na.rm=TRUE)),]
 
 summary(Beer_Data$ABV)
 
+ggplot(Beer_Data, aes(x=IBU, y=ABV)) + geom_point(na.rm=TRUE) + geom_smooth(method=lm, na.rm = TRUE) + ggtitle("Bitterness (IBU) vs. Alcohol Content (ABV)") + theme(plot.title = element_text(hjust = 0.5)) 
 
-
-ggplot(Beer_Data, aes(y = ABV)) + geom_boxplot() + coord_flip() + 
-  geom_boxplot(outlier.colour="goldenrod1", outlier.size=2)  + labs(title="ABV Summary Statistics", y = "Percentage") + xlim(-1, 1) + theme(plot.title = element_text(hjust = 0.5)) +  theme(axis.title.y=element_blank(),        axis.text.y=element_blank(),        axis.ticks.y=element_blank())
 
 ```
 
@@ -157,7 +155,7 @@ ggplot(Beer_Data, aes(x=IBU, y=ABV)) + geom_point(na.rm=TRUE) +geom_smooth(metho
 #Answer 7: We added code to add a trend line to the data to check for correlation. There is a weak positive correlation and it appears that generally as the bitterness of the beer increases, the alcohol content also increases.
 
 #This block of code checks the correlation with a correlation test, and generates a table with the styles of beer
-```{r, echo=FALSE}
+```{r}
 cor.test(Beer_Data$ABV,Beer_Data$IBU)
 
 #Table of Beer Styles
@@ -169,12 +167,12 @@ Beer_Style <- Beer_Style[order(Beer_Style$Freq, decreasing = TRUE),]
 ```
 
 #This code creates a scatter plot which compares the bitterness (IBU) agaisnt the alcohol content (ABV) in the beer. The difference between this scatter plot and the previous is that this one provides the 4 most popular beer styles color coded.
-```{r, echo=FALSE}
+```{r}
 
 ggplot(Beer_Data, aes(x=IBU, y=ABV)) + geom_point(na.rm = TRUE) +geom_smooth(method=lm, na.rm = TRUE) +ggtitle("Bitterness (IBU) vs. Alcohol Content (ABV)") + theme(plot.title = element_text(hjust = 0.5)) + geom_point(data = Beer_Data[grep("IPA",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "tomato3") + geom_point(data = Beer_Data[grep("APA",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "goldenrod1") + geom_point(data = Beer_Data[grep("Red Ale",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "dodgerblue3") + geom_point(data = Beer_Data[grep("Blonde Ale",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "orchid4")
 
 ```
 
-#Conclusion: Using this data, we learned that the top markets for breweries are the states of Colorado, California, and Michigan, Oregon, and Texas. We dealt with some missing data points, mostly with the International Bittnerness units which will certainly impact our final results. What you want from your beer should also influence where you seek it out. If you would like a high alcohol by volume, head to DC or Kentucky - maybe because they're competing with the Bourbon? And if you're looking for bitterness, you should certainly consider heading to Maine, and surprisingly avoid Wisconsin. Though none of these places actually completely come out on top. The highes ABV is located in Colorado, while the most bitter beer hails from Oregon. Once we foudn the summary statistics, we learned that most beers are comparable when it comes to ABV. With fifty pecent falling between 0.05 and 0.067. And with a correlation coefficient of 0.67, we can assure you that it is probably that as your beer increases in bitterness, it is also likely to contain a ABV. As always drink responsibly.
+#Conclusion: Using this data, we learned that the top markets for breweries are the states of Colorado, California, and Michigan, Oregon, and Texas. We dealt with some missing data points, mostly with the International Bittnerness units which will certainly impact our final results. What you want from your beer should also influence where you seek it out. If you would like a high alcohol by volume, head to DC or Kentucky - maybe because they're competing with the Bourbon? And if you're looking for bitterness, you should certainly consider heading to Maine, and surprisingly avoid Wisconsin. Though none of these places actually completely come out on top. The highest ABV is located in Colorado, while the most bitter beer hails from Oregon. Once we found the summary statistics, we learned that most beers are comparable when it comes to ABV. With fifty pecent falling between 0.05 and 0.067. And with a correlation coefficient of 0.67, we can assure you that it is probably that as your beer increases in bitterness, it is also likely to contain a higher ABV. As always drink responsibly.
 
 #Github: https://github.com/emteepastiche/MSDS6306_CaseStudyOne
