@@ -150,7 +150,7 @@ ggplot(Beer_Data, aes(y = ABV)) + geom_boxplot() + coord_flip() +
 ```{r}
 # This code creates a scatter plot which compares the bitterness (IBU) agaisnt the alcohol content (ABV) in the beer.
 
-ggplot(Beer_Data, aes(x=IBU, y=ABV)) + geom_point() +geom_smooth(method=lm) +ggtitle("Bitterness (IBU) vs. Alcohol Content (ABV)") + theme(plot.title = element_text(hjust = 0.5)) 
+ggplot(Beer_Data, aes(x=IBU, y=ABV)) + geom_point(na.rm=TRUE) +geom_smooth(method=lm, na.rm = TRUE) +ggtitle("Bitterness (IBU) vs. Alcohol Content (ABV)") + theme(plot.title = element_text(hjust = 0.5)) 
 
 ```
 
