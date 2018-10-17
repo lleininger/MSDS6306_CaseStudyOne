@@ -173,6 +173,12 @@ ggplot(Beer_Data, aes(x=IBU, y=ABV)) + geom_point(na.rm = TRUE) +geom_smooth(met
 
 ```
 
+##### Colors above are as shown for the top 4 beer styles:
+* American IPA - Red
+* American Pale Ale (APA) - Goldenrod
+* American Amber / Red Ale - Blue
+* American Blonde Ale - Purple
+
 #Conclusion: Using this data, we learned that the top markets for breweries are the states of Colorado, California, and Michigan, Oregon, and Texas. We dealt with some missing data points, mostly with the International Bittnerness units which will certainly impact our final results. What you want from your beer should also influence where you seek it out. If you would like a high alcohol by volume, head to DC or Kentucky - maybe because they're competing with the Bourbon? And if you're looking for bitterness, you should certainly consider heading to Maine, and surprisingly avoid Wisconsin. Though none of these places actually completely come out on top. The highest ABV is located in Colorado, while the most bitter beer hails from Oregon. Once we found the summary statistics, we learned that most beers are comparable when it comes to ABV. With fifty pecent falling between 0.05 and 0.067. And with a correlation coefficient of 0.67, we can assure you that it is probably that as your beer increases in bitterness, it is also likely to contain a higher ABV. As always drink responsibly.
 
 #Github: https://github.com/emteepastiche/MSDS6306_CaseStudyOne
