@@ -1,26 +1,29 @@
 ---
 title: "CaseStudyOne"
-author: "Michael Tieu"
+author: "Michael Tieu & Lisa Leininger"
 date: "10/1/2018"
 output: 
   html_document:
     keep_rmd: true
 ---
+#Introduction: For this presentation, we used R Markdown to merge two lists, beers by state and breweries by state, together. We used this merged list to answer questions about the alcohol content (ABV) and international bitterness units (IBU) for our clients, the CEO and CFO of Budweiser.
 
 ```{r}
+#This section imports the two data sets, Beers.csv and Breweries.csv respectively. It removes factors from data frames, renames variables, and confirms that the columns are in the correct class. It cleans the data and enable us to answer the following questions.
+
 #Removes factors from dataframes
 options(stringsAsFactors = F)
 
-#Reading in data
+#Reads in data
 Beers <- as.data.frame(read.csv('Beers.csv'))
 Breweries <- as.data.frame(read.csv(('Breweries.csv')))
 
-#Renaming Brewery_id to Brew_ID and respective names
+#Renames Brewery_id to Brew_ID and respective names
 names(Beers)[which(names(Beers)=="Brewery_id")] <- 'Brew_ID'
 names(Beers)[which(names(Beers) =="Name")] <- 'Beer Name'
 names(Breweries)[which(names(Breweries) == "Name")] <- 'Brewery'
 
-#Checking classes of columns
+#Checks classes of columns
 a<-function(x,i=1){
   while(i<=length(names(x))){
   print (class(x[,i]))
@@ -28,29 +31,45 @@ a<-function(x,i=1){
   }}
 ```
 
-# Question 1: How many breweries are present in each state?
+#Question 1: How many breweries are present in each state?
 ```{r}
+#This section creates a data frame and finds the sum of how many breweries are in each state.
+
+library(ggplot2)
+
 #Creates a dataframe from a table of breweries present per state
 Q1 <- as.data.frame(table(Breweries$State))
 names(Q1) <- c("State","Number of Breweries Present")
+Q1
 
-#Checking math
-sum(Q1$`Number of Breweries Present`)
+color <- c("lightskyblue4", "goldenrod1", "tomato3")
+color <- rep(color,17)
+
+ggplot(Q1, aes(Q1$State, Q1$'Number of Breweries Present', fill = State)) + geom_bar(stat = "identity") + ggtitle("Breweries Present Per State") + xlab("State") + ylab("Number of Breweries") + theme(axis.text.x=element_text(angle=90)) + theme(plot.title = element_text(hjust = 0.5)) + theme(legend.position ="none") + scale_fill_manual(values=color)
 ```
 
-# Question 2: Merge beer data with the breweries data. Print the first 6 observations and the last six observations to check the merged file.
+#Answer 1: The table above shows how many breweries are located in each state.
+
+
+
+#Question 2: Merge beer data with the breweries data. Print the first 6 observations and the last six observations to check the merged file.
 ```{r}
-#Merging datasets into Beer_Data
+# This section merges the beer data with the brewery data into one data frame. It then prints the head and the tail of the dataframe in order to confirm that it merged without errors.
+
+#Merges datasets into Beer_Data
 Beer_Data <- merge(Beers,Breweries,by=c("Brew_ID"))
 
-#Printing first and last 6 observations of merged dataset
+#Prints first and last 6 observations of merged dataset
 head(Beer_Data)
 tail(Beer_Data)
 ```
+#Answer 2: The first six beers in our data frame are Get Together, Maggie's Leap, Wall's End, Pumpion, Stronghold, and Parapet ESB. The last six beers in our data frame are Pilsner Ukiah, Heinnieweise Weissebier, Snapperhead IPA, Moo Thunder Stout, Porkslap Pale Ale, and Urban Wildness Pale Ale.
 
-# Question 3: Report the number of NA's in each column.
+
+#Question 3: Report the number of NA's in each column.
 ```{r}
-#Goes through each column and extracts column name and number of NA present in each column, compiles to dataframe NA_List
+#Goes through each column and extract column name and number of NA present in each column, then compiles to dataframe NA_List
+
 b<-function(x,i=1){
   Column <- c("")
   Number_NA <- c("")
@@ -64,9 +83,13 @@ b<-function(x,i=1){
 }
 b(Beer_Data)
 ```
+#Answer 3: There are 62 NAs for the ABV column and 1005 NAs for the IBU column.
 
-# Question 4: Compute the median alcohol content and international bitterness unit for each state. Plot a bar chart to compare.
+
+#Question 4: Compute the median alcohol content and international bitterness unit for each state. Plot a bar chart to compare.
 ```{r}
+# The first two lines of code compute the median for both the ABV and the IBU data. We then use the ggplot2 to create two bar plots to show each data set.
+
 #Compiles ABV medians for each state
 ABV_Median<- aggregate(Beer_Data$ABV~Beer_Data$State, data = Beer_Data, median)
 names(ABV_Median) <- c("State","ABV_Median")
@@ -78,6 +101,59 @@ names(IBU_Median) <- c("State","IBU_Median")
 #Merges ABV/IBU median data into one dataframe
 Q4 <- merge(ABV_Median,IBU_Median,by="State")
 
-#Plot of ABV median
-ggplot(Q4, aes(State, ABV_Median)) + geom_bar(stat = "identity") + coord_flip() + ggtitle("Alcobol by Volume by State") + xlab("State") + ylab("Median Alcohol by Volume")
+#Loads library to create a bar graph
+library(ggplot2)
+library(RColorBrewer)
+
+#Creates and formats bar graph to show the ABV median by state
+color <- c("lightskyblue4", "goldenrod1", "tomato3")
+color <- rep(color,17)
+
+ggplot(Q4, aes(State, ABV_Median, fill = State)) + geom_bar(stat = "identity") + ggtitle("Alcohol by Volume (ABV) Median by State") + xlab("State") + ylab("Median Alcohol by Volume") + theme(axis.text.x=element_text(angle=90)) + theme(plot.title = element_text(hjust = 0.5)) + theme(legend.position ="none") + scale_fill_manual(values=color)
+
+#Creates and formats bar graph to show the IBU median by state
+ggplot(Q4, aes(State, IBU_Median, fill = State)) + geom_bar(stat = "identity") + ggtitle("International Bitterness Units (IBU) Median by State") + xlab("State") + ylab("Bitterness (IBU) Median") + theme(axis.text.x=element_text(angle=90)) + theme(plot.title = element_text(hjust = 0.5)) + theme(legend.position ="none") + scale_fill_manual(values=color)
 ```
+
+#Answer 4: You can compare the IBU and Alcohol by Volume medians by state in the two bar graphs above.
+
+
+#Question 5: Which state has the maximum alcoholic (ABV) beer? Which state has the most bitter (IBU) beer?
+```{r}
+# This code uses a which command to find the beer with the highest ABV and IBU and which state it is produced in.
+
+#Searches for highest ABV value in the data frame
+Beer_Data[which(Beer_Data$ABV == max((Beer_Data$ABV), na.rm=TRUE)),]
+
+#Searches for the highest IBU value in the data fram
+Beer_Data[which(Beer_Data$IBU == max((Beer_Data$IBU), na.rm=TRUE)),]
+```
+#Answer 5: Colorado produces the beer with the highest ABV and Oregon produces the beer with the highest IBU.
+
+
+#Question 6: Summary statistics for the ABV variable.
+```{r}
+# This code prints the summary statistics for the ABV variable.
+
+summary(Beer_Data$ABV)
+
+
+
+ggplot(Beer_Data, aes(y = ABV)) + geom_boxplot() + coord_flip() + 
+  geom_boxplot(outlier.colour="goldenrod1", outlier.size=2)  + labs(title="ABV Summary Statistics", y = "Percentage") + xlim(-1, 1) + theme(plot.title = element_text(hjust = 0.5)) +  theme(axis.title.y=element_blank(),        axis.text.y=element_blank(),        axis.ticks.y=element_blank())
+
+```
+
+#Answer 6: The minimum ABV value is 0.001 while the maximum ABV value is 0.128. The mean ABV value is 0.05977 and the median ABV value is 0.056. The first quartile ABV value is 0.050 and the third quartile ABV value is 0.067.
+
+#Question 7: Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot.
+```{r}
+# This code creates a scatter plot which compares the bitterness (IBU) agaisnt the alcohol content (ABV) in the beer.
+
+ggplot(Beer_Data, aes(x=IBU, y=ABV)) + geom_point() +geom_smooth(method=lm) +ggtitle("Bitterness (IBU) vs. Alcohol Content (ABV)") + theme(plot.title = element_text(hjust = 0.5)) 
+
+```
+
+#Answer 7: We added code to add a trend line to the data to check for correlation. There is a weak positive correlation and it appears that generally as the bitterness of the beer increases, the alcohol content also increases.
+
+#Conclusion: Using this data, we learned that the top markets for breweries are the states of Colorado, California, and Michigan.
