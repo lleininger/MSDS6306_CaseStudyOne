@@ -156,4 +156,23 @@ ggplot(Beer_Data, aes(x=IBU, y=ABV)) + geom_point() +geom_smooth(method=lm) +ggt
 
 #Answer 7: We added code to add a trend line to the data to check for correlation. There is a weak positive correlation and it appears that generally as the bitterness of the beer increases, the alcohol content also increases.
 
+#This block of code checks the correlation with a correlation test, and generates a table with the styles of beer
+```{r, echo=FALSE}
+cor.test(Beer_Data$ABV,Beer_Data$IBU)
+
+#Table of Beer Styles
+Beer_Style <- as.data.frame(table(Beer_Data$Style))
+names(Beer_Style) <- c("Style","Freq")
+Beer_Style$Style <- as.character(Beer_Style$Style)
+Beer_Style$Style[1] <- "NA"
+Beer_Style <- Beer_Style[order(Beer_Style$Freq, decreasing = TRUE),]
+```
+
+#This code creates a scatter plot which compares the bitterness (IBU) agaisnt the alcohol content (ABV) in the beer. The difference between this scatter plot and the previous is that this one provides the 4 most popular beer styles color coded.
+```{r, echo=FALSE}
+
+ggplot(Beer_Data, aes(x=IBU, y=ABV)) + geom_point() +geom_smooth(method=lm) +ggtitle("Bitterness (IBU) vs. Alcohol Content (ABV)") + theme(plot.title = element_text(hjust = 0.5)) + geom_point(data = Beer_Data[grep("IPA",Beer_Data$Style),], aes(x=IBU, y=ABV), colour = "tomato3") + geom_point(data = Beer_Data[grep("APA",Beer_Data$Style),], aes(x=IBU, y=ABV), colour = "goldenrod1") + geom_point(data = Beer_Data[grep("IPA",Beer_Data$Style),], aes(x=IBU, y=ABV), colour = "red")+ geom_point(data = Beer_Data[grep("Red Ale",Beer_Data$Style),], aes(x=IBU, y=ABV), colour = "lightskyblue4") + geom_point(data = Beer_Data[grep("Blonde Ale",Beer_Data$Style),], aes(x=IBU, y=ABV), colour = "orchid4")
+
+```
+
 #Conclusion: Using this data, we learned that the top markets for breweries are the states of Colorado, California, and Michigan.
