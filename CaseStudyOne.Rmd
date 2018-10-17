@@ -172,7 +172,7 @@ head(Beer_Style,4)
 #This code creates a scatter plot which compares the bitterness (IBU) agaisnt the alcohol content (ABV) in the beer. The difference between this scatter plot and the previous is that this one provides the 4 most popular beer styles color coded.
 ```{r, echo=FALSE}
 
-ggplot(Beer_Data, aes(x=IBU, y=ABV)) + geom_point() +geom_smooth(method=lm) +ggtitle("Bitterness (IBU) vs. Alcohol Content (ABV)") + theme(plot.title = element_text(hjust = 0.5)) + geom_point(data = Beer_Data[grep("IPA",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "tomato3") + geom_point(data = Beer_Data[grep("APA",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "goldenrod1") + geom_point(data = Beer_Data[grep("Red Ale",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "dodgerblue3") + geom_point(data = Beer_Data[grep("Blonde Ale",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "orchid4")
+ggplot(Beer_Data, aes(x=IBU, y=ABV)) + geom_point(na.rm = TRUE) +geom_smooth(method=lm, na.rm = TRUE) +ggtitle("Bitterness (IBU) vs. Alcohol Content (ABV)") + theme(plot.title = element_text(hjust = 0.5)) + geom_point(data = Beer_Data[grep("IPA",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "tomato3") + geom_point(data = Beer_Data[grep("APA",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "goldenrod1") + geom_point(data = Beer_Data[grep("Red Ale",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "dodgerblue3") + geom_point(data = Beer_Data[grep("Blonde Ale",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "orchid4")
 
 ```
 
