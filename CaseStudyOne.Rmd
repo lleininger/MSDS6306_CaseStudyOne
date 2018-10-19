@@ -6,7 +6,7 @@ output:
   html_document:
     keep_rmd: true
 ---
-#Introduction: For this presentation, we used R Markdown to merge two lists, beers by state and breweries by state, together. We used this merged list to answer questions about the alcohol content (ABV) and international bitterness units (IBU) for our clients, the CEO and CFO of Budweiser.
+### Introduction: For this presentation, we used R Markdown to merge two lists, beers by state and breweries by state, together. We used this merged list to answer questions about the alcohol content (ABV) and international bitterness units (IBU) for our clients, the CEO and CFO of Budweiser.
 
 ```{r}
 #This section imports the two data sets, Beers.csv and Breweries.csv respectively. It removes factors from data frames, renames variables, and confirms that the columns are in the correct class. It cleans the data and enable us to answer the following questions.
@@ -31,28 +31,28 @@ a<-function(x,i=1){
   }}
 ```
 
-#Question 1: How many breweries are present in each state?
+### Question 1: How many breweries are present in each state?
 ```{r}
 #This section creates a data frame and finds the sum of how many breweries are in each state.
-
+library(gridExtra)
+library(grid)
 library(ggplot2)
 
 #Creates a dataframe from a table of breweries present per state
 Q1 <- as.data.frame(table(Breweries$State))
 names(Q1) <- c("State","Number of Breweries Present")
+print("Figure 1: Number of Breweries Present per State")
 Q1
 
 color <- c("lightskyblue4", "goldenrod1", "tomato3")
 color <- rep(color,17)
 
-ggplot(Q1, aes(Q1$State, Q1$'Number of Breweries Present', fill = State)) + geom_bar(stat = "identity") + ggtitle("Breweries Present Per State") + xlab("State") + ylab("Number of Breweries") + theme(axis.text.x=element_text(angle=90)) + theme(plot.title = element_text(hjust = 0.5)) + theme(legend.position ="none") + scale_fill_manual(values=color)
+ggplot(Q1, aes(Q1$State, Q1$'Number of Breweries Present', fill = State)) + geom_bar(stat = "identity") + ggtitle("Breweries Present Per State") + xlab("State") + ylab("Number of Breweries") + theme(axis.text.x=element_text(angle=90)) + theme(plot.title = element_text(hjust = 0.5)) + theme(legend.position ="none") + scale_fill_manual(values=color) + labs(caption = "Figure 2: Breweries per State")
 ```
 
-#Answer 1: The table above shows how many breweries are located in each state.
+##### Answer 1: The table (Figure 1) above shows how many breweries are located in each state. A graphic of the table is shown in Figure 2. 
 
-
-
-#Question 2: Merge beer data with the breweries data. Print the first 6 observations and the last six observations to check the merged file.
+### Question 2: Merge beer data with the breweries data. Print the first 6 observations and the last six observations to check the merged file.
 ```{r}
 # This section merges the beer data with the brewery data into one data frame. It then prints the head and the tail of the dataframe in order to confirm that it merged without errors.
 
@@ -60,13 +60,14 @@ ggplot(Q1, aes(Q1$State, Q1$'Number of Breweries Present', fill = State)) + geom
 Beer_Data <- merge(Beers,Breweries,by=c("Brew_ID"))
 
 #Prints first and last 6 observations of merged dataset
+print("Figure 3: First 6 Observations of Dataset")
 head(Beer_Data)
+print("Figure 4: Last 6 Observations of Dataset")
 tail(Beer_Data)
 ```
-#Answer 2: The first six beers in our data frame are Get Together, Maggie's Leap, Wall's End, Pumpion, Stronghold, and Parapet ESB. The last six beers in our data frame are Pilsner Ukiah, Heinnieweise Weissebier, Snapperhead IPA, Moo Thunder Stout, Porkslap Pale Ale, and Urban Wildness Pale Ale.
+##### Answer 2: The first six beers in our data frame are Get Together, Maggie's Leap, Wall's End, Pumpion, Stronghold, and Parapet ESB (Figure 3). The last six beers in our data frame are Pilsner Ukiah, Heinnieweise Weissebier, Snapperhead IPA, Moo Thunder Stout, Porkslap Pale Ale, and Urban Wildness Pale Ale (Figure 4).
 
-
-#Question 3: Report the number of NA's in each column.
+### Question 3: Report the number of NA's in each column.
 ```{r}
 #Goes through each column and extract column name and number of NA present in each column, then compiles to dataframe NA_List
 
@@ -81,12 +82,12 @@ b<-function(x,i=1){
   }
   NA_List
 }
+print("Figure 5: Reported 'NAs' in Columns")
 b(Beer_Data)
 ```
-#Answer 3: There are 62 NAs for the ABV column and 1005 NAs for the IBU column.
+##### Answer 3: There are 62 NAs for the ABV column and 1005 NAs for the IBU column (Figure 5).
 
-
-#Question 4: Compute the median alcohol content and international bitterness unit for each state. Plot a bar chart to compare.
+### Question 4: Compute the median alcohol content and international bitterness unit for each state. Plot a bar chart to compare.
 ```{r}
 # The first two lines of code compute the median for both the ABV and the IBU data. We then use the ggplot2 to create two bar plots to show each data set.
 
@@ -109,68 +110,65 @@ library(RColorBrewer)
 color <- c("lightskyblue4", "goldenrod1", "tomato3")
 color <- rep(color,17)
 
-ggplot(Q4, aes(State, ABV_Median, fill = State)) + geom_bar(stat = "identity") + ggtitle("Alcohol by Volume (ABV) Median by State") + xlab("State") + ylab("Median Alcohol by Volume") + theme(axis.text.x=element_text(angle=90)) + theme(plot.title = element_text(hjust = 0.5)) + theme(legend.position ="none") + scale_fill_manual(values=color)
+ggplot(Q4, aes(State, ABV_Median, fill = State)) + geom_bar(stat = "identity") + ggtitle("Alcohol by Volume (ABV) Median by State") + xlab("State") + ylab("Median Alcohol by Volume") + theme(axis.text.x=element_text(angle=90)) + theme(plot.title = element_text(hjust = 0.5)) + theme(legend.position ="none") + scale_fill_manual(values=color) + labs(caption = "Figure 6: ABV Median by State")
 
 #Creates and formats bar graph to show the IBU median by state
-ggplot(Q4, aes(State, IBU_Median, fill = State)) + geom_bar(stat = "identity") + ggtitle("International Bitterness Units (IBU) Median by State") + xlab("State") + ylab("Bitterness (IBU) Median") + theme(axis.text.x=element_text(angle=90)) + theme(plot.title = element_text(hjust = 0.5)) + theme(legend.position ="none") + scale_fill_manual(values=color)
+ggplot(Q4, aes(State, IBU_Median, fill = State)) + geom_bar(stat = "identity") + ggtitle("International Bitterness Units (IBU) Median by State") + xlab("State") + ylab("Bitterness (IBU) Median") + theme(axis.text.x=element_text(angle=90)) + theme(plot.title = element_text(hjust = 0.5)) + theme(legend.position ="none") + scale_fill_manual(values=color) + labs(caption = "Figure 7: IBU Median by State")
 ```
 
-#Answer 4: You can compare the IBU and Alcohol by Volume medians by state in the two bar graphs above.
+##### Answer 4: You can compare the IBU and Alcohol by Volume medians by state in the two bar graphs above (Figures 6 & 7).
 
-
-#Question 5: Which state has the maximum alcoholic (ABV) beer? Which state has the most bitter (IBU) beer?
+### Question 5: Which state has the maximum alcoholic (ABV) beer? Which state has the most bitter (IBU) beer?
 ```{r}
 # This code uses a which command to find the beer with the highest ABV and IBU and which state it is produced in.
 
 #Searches for highest ABV value in the data frame
+print("Figure 8: Beer Data for Beer with Highest ABV")
 Beer_Data[which(Beer_Data$ABV == max((Beer_Data$ABV), na.rm=TRUE)),]
 
 #Searches for the highest IBU value in the data fram
+print("Figure 9: Beer Data for Beer with Highest IBU")
 Beer_Data[which(Beer_Data$IBU == max((Beer_Data$IBU), na.rm=TRUE)),]
 ```
-#Answer 5: Colorado produces the beer with the highest ABV and Oregon produces the beer with the highest IBU.
+##### Answer 5: Colorado produces the beer with the highest ABV and Oregon produces the beer with the highest IBU (Figures 8 & 9).
 
 
-#Question 6: Summary statistics for the ABV variable.
+### Question 6: Summary statistics for the ABV variable.
 ```{r}
 # This code prints the summary statistics for the ABV variable.
-
+print("Figure 10: Summary Statistics for Beer ABV")
 summary(Beer_Data$ABV)
-
-ggplot(Beer_Data, aes(x=IBU, y=ABV)) + geom_point(na.rm=TRUE) + geom_smooth(method=lm, na.rm = TRUE) + ggtitle("Bitterness (IBU) vs. Alcohol Content (ABV)") + theme(plot.title = element_text(hjust = 0.5)) 
-
-
 ```
 
-#Answer 6: The minimum ABV value is 0.001 while the maximum ABV value is 0.128. The mean ABV value is 0.05977 and the median ABV value is 0.056. The first quartile ABV value is 0.050 and the third quartile ABV value is 0.067.
+##### Answer 6: The minimum ABV value is 0.001 while the maximum ABV value is 0.128. The mean ABV value is 0.05977 and the median ABV value is 0.056. The first quartile ABV value is 0.050 and the third quartile ABV value is 0.067 (Figure 10).
 
-#Question 7: Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot.
+### Question 7: Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot.
 ```{r}
 # This code creates a scatter plot which compares the bitterness (IBU) agaisnt the alcohol content (ABV) in the beer.
 
-ggplot(Beer_Data, aes(x=IBU, y=ABV)) + geom_point(na.rm=TRUE) +geom_smooth(method=lm, na.rm = TRUE) +ggtitle("Bitterness (IBU) vs. Alcohol Content (ABV)") + theme(plot.title = element_text(hjust = 0.5)) 
+ggplot(Beer_Data, aes(x=IBU, y=ABV)) + geom_point(na.rm=TRUE) +geom_smooth(method=lm, na.rm = TRUE) +ggtitle("Bitterness (IBU) vs. Alcohol Content (ABV)") + theme(plot.title = element_text(hjust = 0.5)) + labs(caption = "Figure 11: Scatterplot of Paired ABV and IBU")
 
+print("Figure 12: Correlation Coefficient of ABV/IBU Scatterplot")
+cor(Beer_Data$ABV,Beer_Data$IBU)
 ```
 
-#Answer 7: We added code to add a trend line to the data to check for correlation. There is a weak positive correlation and it appears that generally as the bitterness of the beer increases, the alcohol content also increases.
+##### Answer 7: We added code to add a trend line to the data to check for correlation. There is a weak positive correlation and it appears that generally as the bitterness of the beer increases, the alcohol content also increases (Figures 11 & 12).
 
-#This block of code checks the correlation with a correlation test, and generates a table with the styles of beer
+#### This block of code checks the correlation with a correlation test, and generates a table with the styles of beer
 ```{r}
-cor.test(Beer_Data$ABV,Beer_Data$IBU)
-
 #Table of Beer Styles
 Beer_Style <- as.data.frame(table(Beer_Data$Style))
 names(Beer_Style) <- c("Style","Freq")
 Beer_Style$Style <- as.character(Beer_Style$Style)
 Beer_Style$Style[1] <- "NA"
 Beer_Style <- Beer_Style[order(Beer_Style$Freq, decreasing = TRUE),]
+print("Figure 13: Top 4 Popular Beer Styles")
+head(Beer_Style, 4)
 ```
 
-#This code creates a scatter plot which compares the bitterness (IBU) agaisnt the alcohol content (ABV) in the beer. The difference between this scatter plot and the previous is that this one provides the 4 most popular beer styles color coded.
+##### This code creates a scatter plot which compares the bitterness (IBU) agaisnt the alcohol content (ABV) in the beer (Figure 14). The difference between this scatter plot and the previous is that this one provides the 4 most popular beer styles color coded from Figure 13.
 ```{r}
-
-ggplot(Beer_Data, aes(x=IBU, y=ABV)) + geom_point(na.rm = TRUE) +geom_smooth(method=lm, na.rm = TRUE) +ggtitle("Bitterness (IBU) vs. Alcohol Content (ABV)") + theme(plot.title = element_text(hjust = 0.5)) + geom_point(data = Beer_Data[grep("IPA",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "tomato3") + geom_point(data = Beer_Data[grep("APA",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "goldenrod1") + geom_point(data = Beer_Data[grep("Red Ale",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "dodgerblue3") + geom_point(data = Beer_Data[grep("Blonde Ale",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "orchid4")
-
+ggplot(Beer_Data, aes(x=IBU, y=ABV)) + geom_point(na.rm = TRUE) +geom_smooth(method=lm, na.rm = TRUE) +ggtitle("Bitterness (IBU) vs. Alcohol Content (ABV)") + theme(plot.title = element_text(hjust = 0.5)) + geom_point(data = Beer_Data[grep("IPA",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "tomato3") + geom_point(data = Beer_Data[grep("APA",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "goldenrod1") + geom_point(data = Beer_Data[grep("Red Ale",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "dodgerblue3") + geom_point(data = Beer_Data[grep("Blonde Ale",Beer_Data$Style),], aes(x=IBU, y=ABV), na.rm = TRUE, colour = "orchid4") + labs(caption = "Figure 14: Scatterplot of Paired ABV and IBU with Marked Top 4 Beer Styles")
 ```
 
 ##### Colors above are as shown for the top 4 beer styles:
@@ -179,6 +177,8 @@ ggplot(Beer_Data, aes(x=IBU, y=ABV)) + geom_point(na.rm = TRUE) +geom_smooth(met
 * American Amber / Red Ale - Blue
 * American Blonde Ale - Purple
 
-#Conclusion: Using this data, we learned that the top markets for breweries are the states of Colorado, California, and Michigan, Oregon, and Texas. We dealt with some missing data points, mostly with the International Bittnerness units which will certainly impact our final results. What you want from your beer should also influence where you seek it out. If you would like a high alcohol by volume, head to DC or Kentucky - maybe because they're competing with the Bourbon? And if you're looking for bitterness, you should certainly consider heading to Maine, and surprisingly avoid Wisconsin. Though none of these places actually completely come out on top. The highest ABV is located in Colorado, while the most bitter beer hails from Oregon. Once we found the summary statistics, we learned that most beers are comparable when it comes to ABV. With fifty pecent falling between 0.05 and 0.067. And with a correlation coefficient of 0.67, we can assure you that it is probably that as your beer increases in bitterness, it is also likely to contain a higher ABV. As always drink responsibly.
+### Conclusion: 
+##### Using this data, we learned that the top markets for breweries are the states of Colorado, California, and Michigan, Oregon, and Texas. We dealt with some missing data points, mostly with the International Bittnerness units which will certainly impact our final results. What you want from your beer should also influence where you seek it out. If you would like a high alcohol by volume, head to DC or Kentucky - maybe because they're competing with the Bourbon? And if you're looking for bitterness, you should certainly consider heading to Maine, and surprisingly avoid Wisconsin. Though none of these places actually completely come out on top. The highest ABV is located in Colorado, while the most bitter beer hails from Oregon. Once we found the summary statistics, we learned that most beers are comparable when it comes to ABV. With fifty pecent falling between 0.05 and 0.067. And with a correlation coefficient of 0.67, we can assure you that it is probably that as your beer increases in bitterness, it is also likely to contain a higher ABV. As always drink responsibly.
 
-#Github: https://github.com/emteepastiche/MSDS6306_CaseStudyOne
+#### Github: https://github.com/emteepastiche/MSDS6306_CaseStudyOne
+#### Youtube: 
