@@ -76,7 +76,7 @@ Questions: 5-7: Lisa
 
 Powerpoint: Lisa
 
-*Though we worked for several hours together reworking code and editing our presentation pieces, both the rmarkdown and powerpoint. It is unlikely there is any part of this project which was down without any collaboration or input from the other partner.
+*Though we worked for several hours together reworking code and editing our presentation pieces, both the rmarkdown and powerpoint. It is unlikely there is any part of this project which was done without any collaboration or input from the other partner.
 
 
 Contact Information:
