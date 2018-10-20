@@ -6,6 +6,7 @@ output:
   html_document:
     keep_rmd: true
 ---
+
 ### Introduction: For this presentation, we used R Markdown to merge two lists, beers by state and breweries by state, together. We used this merged list to answer questions about the alcohol content (ABV) and international bitterness units (IBU) for our clients, the CEO and CFO of Budweiser.
 
 ```{r}
@@ -30,6 +31,7 @@ a<-function(x,i=1){
   i = i+1
   }}
 ```
+
 
 ### Question 1: How many breweries are present in each state?
 ```{r}
