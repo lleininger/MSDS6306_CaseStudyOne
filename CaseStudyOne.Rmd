@@ -152,7 +152,7 @@ print("Figure 12: Correlation Coefficient of ABV/IBU Scatterplot")
 cor(Beer_Data$ABV,Beer_Data$IBU)
 ```
 
-##### Answer 7: We added code to add a trend line to the data to check for correlation. There is a weak positive correlation and it appears that generally as the bitterness of the beer increases, the alcohol content also increases (Figures 11 & 12).
+##### Answer 7: We added code to add a trend line to the data to check for correlation. There is a positive association and it appears that generally as the bitterness of the beer increases, the alcohol content also increases (Figures 11 & 12).
 
 #### This block of code checks the correlation with a correlation test, and generates a table with the styles of beer
 ```{r}
@@ -178,7 +178,7 @@ ggplot(Beer_Data, aes(x=IBU, y=ABV)) + geom_point(na.rm = TRUE) +geom_smooth(met
 * American Blonde Ale - Purple
 
 ### Conclusion: 
-##### Using this data, we learned that the top markets for breweries are the states of Colorado, California, and Michigan, Oregon, and Texas. We dealt with some missing data points, mostly with the International Bittnerness units which will certainly impact our final results. What you want from your beer should also influence where you seek it out. If you would like a high alcohol by volume, head to DC or Kentucky - maybe because they're competing with the Bourbon? And if you're looking for bitterness, you should certainly consider heading to Maine, and surprisingly avoid Wisconsin. Though none of these places actually completely come out on top. The highest ABV is located in Colorado, while the most bitter beer hails from Oregon. Once we found the summary statistics, we learned that most beers are comparable when it comes to ABV. With fifty pecent falling between 0.05 and 0.067. And with a correlation coefficient of 0.67, we can assure you that it is probably that as your beer increases in bitterness, it is also likely to contain a higher ABV. As always drink responsibly.
+##### Using this data, we learned that the top markets for breweries are the states of Colorado, California, and Michigan, Oregon, and Texas. We dealt with some missing data points, mostly with the International Bittnerness units which will certainly impact our final results. What you want from your beer should also influence where you seek it out. If you would like a high alcohol by volume, head to DC or Kentucky - maybe because they're competing with the Bourbon? And if you're looking for bitterness, you should certainly consider heading to Maine, and surprisingly avoid Wisconsin. Though none of these places actually completely come out on top. The highest ABV is located in Colorado, while the most bitter beer hails from Oregon. Once we found the summary statistics, we learned that most beers are comparable when it comes to ABV. With fifty pecent falling between 0.05 and 0.067. And with a correlation coefficient of 0.67, we find it likely that as your beer increases in bitterness, it is also likely to contain a higher ABV. As always have fun and drink responsibly.
 
 #### Github: https://github.com/emteepastiche/MSDS6306_CaseStudyOne
 #### Youtube: 
